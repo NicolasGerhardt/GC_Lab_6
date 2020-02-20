@@ -14,6 +14,8 @@ Pair up with a classmate and write a cash register or self-service terminal for 
 	- [ ] Display a receipt with all the items ordered, subtotal, grand total, amount tendered and change
 - [ ] Return to the original menu for a new order
 
+
+## Teacher Notes
 __You must develop this project with _TDD_ and include all appropriate tests.__ Your Solution should ahve a console project including multiple classes, and an XUnit project including a test class for each relevant class from the console project.
 
 One of the things creating this project with TDD will force you to do is to move as much functionality out of main as possible so it's testable. Ideally Main and Program in general will have a minimal code, Primarily for Console input and output, and your other classes will have no consoelinput and output.
