@@ -7,6 +7,24 @@ namespace GC_Lab_6
     public class ShoppingCart
     {
         public Dictionary<Product, int> Items { get; private set; }
+        public double SubTotal
+        {
+            get
+            {
+                double _subtotal = 0;
+
+                foreach (Product product in Items.Keys)
+                {
+                    _subtotal += Items[product] * product.Price;
+                }
+
+                return _subtotal;
+            }
+        }
+        public double Tax { get { return SubTotal * 0.06; } }
+
+        public double Total { get { return SubTotal + Tax; } }
+
 
         public ShoppingCart()
         {
