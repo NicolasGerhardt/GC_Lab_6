@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using GC_Lab_6;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xunit;
 
 namespace GC_Lab_6_Test

@@ -78,5 +78,27 @@ namespace GC_Lab_6_Test
 
             Assert.Equal(expectedSubtotal, actualSubTotal, 2);
         }
+
+        [Fact]
+        public void GetReceipt_RequestReceiptwithTwoProducts_GetStringOutupt()
+        {
+            ShoppingCart cart = new ShoppingCart();
+            Product testItem = new Product("Holland, 1945", "Ska", "Netural Milk Hotel", 2.99);
+            Product testItem2 = new Product("Ruler of Everything", "Rich", "Tally Hall", 0.99);
+            cart.AddProduct(testItem, 1);
+            cart.AddProduct(testItem2, 2);
+            string expected = string.Empty;
+            expected += "1 x Holland, 1945 by Netural Milk Hotel -- $2.99\n";
+            expected += "2 x Ruler of Everything by Tally Hall   -- $0.99\n";
+            expected += "================================================\n";
+            expected += "subtotal: $4.97\n";
+            expected += "  6% Tax: $0.30\n";
+            expected += "   Total: $5.27\n";
+
+            string actual = cart.GetReceipt();
+
+            Assert.Equal(expected, actual);
+
+        }
     }
 }
