@@ -14,11 +14,7 @@ namespace GC_Lab_6
         }
 
 
-        /// <summary>
-        /// Will lower the amount in the t
-        /// </summary>
-        /// <param name="requestAmount"></param>
-        /// <returns></returns>
+        
         public bool TryMakeChange(double requestAmount)
         {
             if (requestAmount > Till)

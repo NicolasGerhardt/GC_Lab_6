@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GC_Lab_6
 {
-    public class Inventory
+    public static class Inventory
     {
         public static Dictionary< Product, int> songs = new Dictionary<Product, int>()
         { 
