@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GC_Lab_6
 {
-    class Product
+    public class Product
     {
     }
 }
