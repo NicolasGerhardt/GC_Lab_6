@@ -3,7 +3,7 @@ using Xunit;
 
 namespace GC_Lab_6_Test
 {
-    public class UnitTest1
+    public class Product_Test
     {
         [Fact]
         public void Test1()
