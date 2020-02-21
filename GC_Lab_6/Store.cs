@@ -17,15 +17,17 @@ namespace GC_Lab_6
 
             while (true)
             {
+                Console.Clear();
+                DisplayInventory();
+                Console.WriteLine("Your cart:");
+                Console.WriteLine(cart.ToString());
                 Console.WriteLine("|Avalible Commands:");
                 Console.WriteLine("|- Add Song Single");
-                Console.WriteLine("|- See Cart");
                 Console.WriteLine("|- Refresh screen");
                 Console.WriteLine("|- help");
                 Console.Write("What would you like to do?\n > ");
                 string input = Console.ReadLine().ToLower();
-                Console.Clear();
-                DisplayInventory();
+                
                 switch (input)
                 {
                     case string s when s.Contains("refresh"):
@@ -34,10 +36,6 @@ namespace GC_Lab_6
                         break;
                     case string s when s.Contains("add"):
                         AddSingleToCart(cart, input);
-                        break;
-                    case string s when s.Contains("cart"):
-                        Console.WriteLine("Your cart:");
-                        Console.WriteLine(cart.ToString());
                         break;
                     case string s when s.Contains("help"):
                         DisplayHelp();
@@ -61,7 +59,12 @@ namespace GC_Lab_6
 
                 if (found.Count == 1)
                 {
-                    cart.AddProduct(found[0], 1);
+                    var song = found[0];
+                    Console.Write($"How many \'{song.SongName}\' would you like to add?\n > ");
+                    input = Console.ReadLine();
+                    int qty = int.Parse(input);
+                    qty = stock.RemoveFromStock(song, qty);
+                    cart.AddProduct(song, qty);
                     return;
                 }
                 else if (found.Count > 1)
