@@ -28,5 +28,35 @@ namespace GC_Lab_6
             };
         }
 
+        public void AddToStock(Product song, int quantity)
+        {
+            if (quantity < 0) return;
+
+            if (Songs.ContainsKey(song))
+            {
+                Songs[song] += quantity;
+            }
+            else
+            {
+                Songs.Add(song, quantity);
+            }
+        }
+
+        public int RemoveFromStock(Product song, int quantity)
+        {
+            if (quantity < 0) return 0;
+            if (!Songs.ContainsKey(song)) return 0;
+
+            if (Songs[song] > quantity)
+            {
+                Songs[song] -= quantity;
+                return quantity;
+            }
+
+            quantity -= Songs[song];
+            Songs[song] = 0;
+            return quantity;
+        }
+
     }
 }
