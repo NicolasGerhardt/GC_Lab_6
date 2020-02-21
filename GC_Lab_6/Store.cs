@@ -79,6 +79,7 @@ namespace GC_Lab_6
 
             }
 
+
             // check if input already has a song title, artist or genere in it. 
             // TODO: complete Add Function
 
