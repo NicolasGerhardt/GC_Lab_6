@@ -38,7 +38,32 @@ namespace GC_Lab_6
         /// <param name="quantity"></param>
         public void AddProduct(Product product, int quantity)
         {
-            Items.Add(product, quantity);
+            if (quantity < 0) return;
+
+            if (Items.ContainsKey(product))
+            {
+                Items[product] += quantity;
+            }
+            else
+            {
+                Items.Add(product, quantity);
+            }
+        }
+
+        public int RemoveFromCart(Product song, int quantity)
+        {
+            if (quantity < 0) return 0;
+            if (!Items.ContainsKey(song)) return 0;
+
+            if (Items[song] > quantity)
+            {
+                Items[song] -= quantity;
+                return quantity;
+            }
+
+            quantity = Items[song];
+            Items.Remove(song);
+            return quantity;
         }
 
         public string GetReceipt()
