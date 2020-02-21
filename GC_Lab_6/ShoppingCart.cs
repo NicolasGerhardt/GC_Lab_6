@@ -70,7 +70,7 @@ namespace GC_Lab_6
         {
             string output = ToString();
 
-            output += "================================================\n";
+            output += "==================\n";
             output += $"subtotal: {SubTotal.ToString("C")}\n";
             output += $"  6% Tax: {Tax.ToString("C")}\n";
             output += $"   Total: {Total.ToString("C")}\n";
@@ -84,13 +84,14 @@ namespace GC_Lab_6
 
             if (Items.Count == 0)
             {
-                output += "Oh NO! The cart is empty!";
+                output += "Oh NO! The cart is empty!\n";
             }
 
             foreach (Product item in Items.Keys)
             {
                 string lineItem = $"{item.SongName} by {item.Artist}";
-                output += $"{Items[item]} x {lineItem,-35} -- {item.Price.ToString("C")}\n";
+                double lineItemCost = item.Price * Items[item];
+                output += $"{Items[item]} x {lineItem,-35} - Cost: {lineItemCost.ToString("C")} \n";
             }
 
             return output;

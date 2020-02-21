@@ -20,7 +20,7 @@ namespace GC_Lab_6
                 Console.Clear();
                 DisplayInventory();
                 Console.WriteLine("Your cart:");
-                Console.WriteLine(cart.ToString());
+                Console.WriteLine(cart.GetReceipt());
                 Console.WriteLine("|Avalible Commands:");
                 Console.WriteLine("|- Add Song Single");
                 Console.WriteLine("|- Refresh screen");
@@ -60,9 +60,15 @@ namespace GC_Lab_6
                 if (found.Count == 1)
                 {
                     var song = found[0];
-                    Console.Write($"How many \'{song.SongName}\' would you like to add?\n > ");
-                    input = Console.ReadLine();
-                    int qty = int.Parse(input);
+                    bool gotQuanitty = false;
+                    int qty;
+                    do
+                    {
+                        Console.Write($"How many \'{song.SongName}\' would you like to add?\n > ");
+                        input = Console.ReadLine();
+                        gotQuanitty = int.TryParse(input, out qty);
+                        if (gotQuanitty) Console.WriteLine("must be a number");
+                    } while (!gotQuanitty);
                     qty = stock.RemoveFromStock(song, qty);
                     cart.AddProduct(song, qty);
                     return;
