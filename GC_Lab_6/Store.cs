@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GC_Lab_6
 {
@@ -52,10 +51,33 @@ namespace GC_Lab_6
             }
         }
 
-        private static void AddSingleToCart(ShoppingCart cart, string input)
+        private void AddSingleToCart(ShoppingCart cart, string input)
         {
-            Console.WriteLine("attempting to add");
-            Console.WriteLine();
+            input = input.Replace("add ", " ").Trim();
+
+            while (true)
+            {
+                List<Product> found = SearchForSong(input);
+
+                if (found.Count == 1)
+                {
+                    cart.AddProduct(found[0], 1);
+                    return;
+                }
+                else if (found.Count > 1)
+                {
+                    Console.WriteLine("We found these: ");
+                    DisplayList(found);
+                }
+                else
+                {
+                    Console.WriteLine("We ain't find shit!");
+                    DisplayInventory();
+                }
+                Console.Write("Which song would you like to add? \n > ");
+                input = Console.ReadLine().ToLower().Trim();
+
+            }
 
             // check if input already has a song title, artist or genere in it. 
             // TODO: complete Add Function
@@ -64,11 +86,41 @@ namespace GC_Lab_6
 
         }
 
+        private static void DisplayList(List<Product> found)
+        {
+
+            foreach (Product song in found)
+            {
+                if (found.Count > 0)
+                {
+                    Console.WriteLine($" {song.ToString()}");
+                }
+
+            }
+
+
+        }
+
+
+
+        private List<Product> SearchForSong(string input)
+        {
+            List<Product> found = new List<Product>();
+
+            foreach (Product product in stock.Songs.Keys)
+            {
+                if (product.SongName.ToLower().Contains(input))
+                {
+                    found.Add(product);
+                }
+            }
+            return found;
+        }
 
         private static void DisplayHelp()
         {
             Console.WriteLine("Type in the command for the thing that you want to do!");
-            Console.WriteLine( );
+            Console.WriteLine();
             // TODO: make this more useful
         }
 
@@ -90,6 +142,6 @@ namespace GC_Lab_6
 
         }
 
-        
+
     }
 }
