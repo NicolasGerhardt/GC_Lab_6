@@ -100,5 +100,36 @@ namespace GC_Lab_6_Test
             Assert.Equal(expected, actual);
 
         }
+
+        [Fact]
+        public void ToString_RequestReceiptwithTwoProducts_GetStringOutupt()
+        {
+            ShoppingCart cart = new ShoppingCart();
+            Product testItem = new Product("Holland, 1945", "Ska", "Netural Milk Hotel", 2.99);
+            Product testItem2 = new Product("Ruler of Everything", "Rich", "Tally Hall", 0.99);
+            cart.AddProduct(testItem, 1);
+            cart.AddProduct(testItem2, 2);
+            string expected = string.Empty;
+            expected += "1 x Holland, 1945 by Netural Milk Hotel -- $2.99\n";
+            expected += "2 x Ruler of Everything by Tally Hall   -- $0.99\n";
+
+            string actual = cart.ToString();
+
+            Assert.Equal(expected, actual);
+
+        }
+
+        [Fact]
+        public void ToString_EmptyCart_EmptyCartMessage()
+        {
+            ShoppingCart cart = new ShoppingCart();
+            
+            string expected = "Oh NO! The cart is empty!";
+
+            string actual = cart.ToString();
+
+            Assert.Equal(expected, actual);
+
+        }
     }
 }

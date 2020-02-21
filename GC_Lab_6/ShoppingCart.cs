@@ -43,17 +43,30 @@ namespace GC_Lab_6
 
         public string GetReceipt()
         {
+            string output = ToString();
+
+            output += "================================================\n";
+            output += $"subtotal: {SubTotal.ToString("C")}\n";
+            output += $"  6% Tax: {Tax.ToString("C")}\n";
+            output += $"   Total: {Total.ToString("C")}\n";
+
+            return output;
+        }
+
+        public override string ToString()
+        {
             string output = string.Empty;
+
+            if (Items.Count == 0)
+            {
+                output += "Oh NO! The cart is empty!";
+            }
 
             foreach (Product item in Items.Keys)
             {
                 string lineItem = $"{item.SongName} by {item.Artist}";
                 output += $"{Items[item]} x {lineItem,-35} -- {item.Price.ToString("C")}\n";
             }
-            output += "================================================\n";
-            output += $"subtotal: {SubTotal.ToString("C")}\n";
-            output += $"  6% Tax: {Tax.ToString("C")}\n";
-            output += $"   Total: {Total.ToString("C")}\n";
 
             return output;
         }
