@@ -53,7 +53,7 @@ namespace GC_Lab_6
                 return quantity;
             }
 
-            quantity -= Songs[song];
+            quantity = Songs[song];
             Songs[song] = 0;
             return quantity;
         }

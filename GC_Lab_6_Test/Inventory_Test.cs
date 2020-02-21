@@ -127,10 +127,12 @@ namespace GC_Lab_6_Test
             int expected = 0;
             stock.AddToStock(song, 2);
 
-            stock.RemoveFromStock(song, 5);
+            int removed = stock.RemoveFromStock(song, 5);
+            
 
             Assert.True(stock.Songs.ContainsKey(song));
             Assert.Equal(expected, stock.Songs[song]);
+            Assert.Equal(2, removed);
         }
     }
 }
