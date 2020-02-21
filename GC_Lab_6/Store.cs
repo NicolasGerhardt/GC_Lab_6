@@ -55,9 +55,12 @@ namespace GC_Lab_6
         private static void AddSingleToCart(ShoppingCart cart, string input)
         {
             Console.WriteLine("attempting to add");
+            Console.WriteLine();
 
             // check if input already has a song title, artist or genere in it. 
             // TODO: complete Add Function
+
+
 
         }
 
