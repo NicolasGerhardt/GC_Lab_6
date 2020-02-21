@@ -6,33 +6,13 @@ namespace GC_Lab_6
 {
     public class Store
     {
-        public Inventory Stock { get; private set; }
-        public Store()
-        {
-            Stock = new Inventory();
-        }
+        private Inventory stock;
 
-        public void DisplayInventory()
-        {
-            Console.WriteLine("===================================================================================================");
-            Console.WriteLine($"| {"Qty",3} | {"Song Name",-35} | {"Artist",-20} | {"Genre",-15} | {"Price", 10} |");
-            Console.WriteLine("|=================================================================================================|");
-
-            foreach (Product song in Stock.Songs.Keys)
-            {
-                if (Stock.Songs[song] > 0)
-                {
-                    Console.WriteLine($"| {Stock.Songs[song],3} | {song.SongName,-35} | {song.Artist,-20} | {song.Category,-15} | {song.Price,10:C} |");
-                }
-
-            }
-            Console.WriteLine("===================================================================================================");
-
-        }
+        public Store() { stock = new Inventory(); }
 
         public void Shopping()
         {
-            
+
             ShoppingCart cart = new ShoppingCart();
             DisplayInventory();
 
@@ -72,13 +52,6 @@ namespace GC_Lab_6
             }
         }
 
-        private static void DisplayHelp()
-        {
-            Console.WriteLine("Type in the command for the thing that you want to do!");
-            Console.WriteLine( );
-            // TODO: make this more useful
-        }
-
         private static void AddSingleToCart(ShoppingCart cart, string input)
         {
             Console.WriteLine("attempting to add");
@@ -87,5 +60,33 @@ namespace GC_Lab_6
             // TODO: complete Add Function
 
         }
+
+
+        private static void DisplayHelp()
+        {
+            Console.WriteLine("Type in the command for the thing that you want to do!");
+            Console.WriteLine( );
+            // TODO: make this more useful
+        }
+
+        private void DisplayInventory()
+        {
+            Console.WriteLine("===================================================================================================");
+            Console.WriteLine($"| {"Qty",3} | {"Song Name",-35} | {"Artist",-20} | {"Genre",-15} | {"Price",10} |");
+            Console.WriteLine("|=================================================================================================|");
+
+            foreach (Product song in stock.Songs.Keys)
+            {
+                if (stock.Songs[song] > 0)
+                {
+                    Console.WriteLine($"| {stock.Songs[song],3} | {song.SongName,-35} | {song.Artist,-20} | {song.Category,-15} | {song.Price,10:C} |");
+                }
+
+            }
+            Console.WriteLine("===================================================================================================");
+
+        }
+
+        
     }
 }
