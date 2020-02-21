@@ -6,8 +6,9 @@ namespace GC_Lab_6
     {
         static void Main(string[] args)
         {
-            Store.DisplayInventory();
-            Store.Shopping();
+            Store store = new Store();
+            store.Shopping();
+            store = null;
         }
     }
 }

@@ -4,43 +4,75 @@ using System.Text;
 
 namespace GC_Lab_6
 {
-    public static class Store
+    public class Store
     {
-        public static void DisplayInventory()
+        public Inventory Stock { get; private set; }
+        public Store()
         {
-            Console.WriteLine($"{"Song Name",-35} | {"Artist",-20} | {"Genre",-15} | {"Price", 10}");
-            Console.WriteLine("----------------------------------------------------------------------------");
+            Stock = new Inventory();
+        }
 
-            foreach (Product song in Inventory.songs.Keys)
+        public void DisplayInventory()
+        {
+            Console.WriteLine("===================================================================================================");
+            Console.WriteLine($"| {"Qty",3} | {"Song Name",-35} | {"Artist",-20} | {"Genre",-15} | {"Price", 10} |");
+            Console.WriteLine("|=================================================================================================|");
+
+            foreach (Product song in Stock.Songs.Keys)
             {
-                Console.WriteLine($"{song.SongName, -35} | {song.Artist, -20} | {song.Category, -15} | {song.Price,10:C}");
+                Console.WriteLine($"| {Stock.Songs[song],3} | {song.SongName, -35} | {song.Artist, -20} | {song.Category, -15} | {song.Price,10:C} |");
             }
+            Console.WriteLine("===================================================================================================");
 
         }
 
-        public static void Shopping()
+        public void Shopping()
         {
+            
             ShoppingCart cart = new ShoppingCart();
-
-            Console.WriteLine("\n1. Add Single");
-            Console.Write("What would you like to do?");
-            string input = Console.ReadLine().ToLower().Trim();
-
-            switch (input)
+            DisplayInventory();
+            while (true)
             {
-                case "add single":
-                    AddSingleToCart(cart);
-                    break;
+                Console.WriteLine("Avalible Commands:");
+                Console.WriteLine(" - Add Song Single");
+                Console.WriteLine(" - Refresh List");
+                Console.Write("What would you like to do?\n > ");
+                string input = Console.ReadLine().ToLower();
 
-                default:
-                    Console.WriteLine($"I don't understand! \'{input}\'");
-                    break;
+                switch (input)
+                {
+                    case string s when s.Contains("refresh"):
+                        Console.Clear();
+                        DisplayInventory();
+                        break;
+                    case string s when s.Contains("add"):
+                        AddSingleToCart(cart, input);
+                        break;
+                    case string s when s.Contains("help"):
+                        DisplayHelp();
+                        break;
+                    case string s when (s.Contains("leave") || s.Contains("quit")):
+                        return;
+                    default:
+                        Console.WriteLine($"I don't understand!\n\'{input}\'\n");
+                        break;
+                }
             }
         }
 
-        private static void AddSingleToCart(ShoppingCart cart)
+        private static void DisplayHelp()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Type in the command for the thing that you want to do!");
+            Console.WriteLine( );
+            // TODO: make this more useful
+        }
+
+        private static void AddSingleToCart(ShoppingCart cart, string input)
+        {
+            Console.WriteLine("attempting to add");
+
+            // check if input already has a song title, artist or genere in it. 
+
         }
     }
 }
