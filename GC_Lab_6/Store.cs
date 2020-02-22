@@ -13,7 +13,7 @@ namespace GC_Lab_6
         {
 
             ShoppingCart cart = new ShoppingCart();
-            DisplayInventory();
+            string displayBuffer = "you may type \'help\' at anytime to see a list of commands.\n";
 
             while (true)
             {
@@ -21,35 +21,47 @@ namespace GC_Lab_6
                 DisplayInventory();
                 Console.WriteLine("Your cart:");
                 Console.WriteLine(cart.GetReceipt());
-                Console.WriteLine("|Avalible Commands:");
-                Console.WriteLine("|- Add Song Single");
-                Console.WriteLine("|- Refresh screen");
-                Console.WriteLine("|- help");
-                Console.Write("What would you like to do?\n > ");
+                displayBuffer += "What would you like to do?\n > ";
+                Console.Write(displayBuffer);
                 string input = Console.ReadLine().ToLower();
+                displayBuffer = string.Empty;
                 
                 switch (input)
                 {
-                    case string s when s.Contains("refresh"):
-                        Console.Clear();
-                        DisplayInventory();
-                        break;
                     case string s when s.Contains("add"):
-                        AddSingleToCart(cart, input);
+                        displayBuffer += AddSingleToCart(cart, input);
+                        break;
+                    case string s when s.Contains("remove"):
+                        displayBuffer += RemoveSingleFromCart(cart, input);
+                        break;
+                    case string s when s.Contains("buy"):
+                        displayBuffer += BuySinglesInCart(cart, input);
                         break;
                     case string s when s.Contains("help"):
-                        DisplayHelp();
+                        displayBuffer += GetHelpInfo();
                         break;
                     case string s when (s.Contains("leave") || s.Contains("quit")):
                         return;
                     default:
-                        Console.WriteLine($"I don't understand! \'{input}\'\n");
+                        displayBuffer += $"I don't understand! \'{input}\'\n";
                         break;
                 }
             }
         }
 
-        private void AddSingleToCart(ShoppingCart cart, string input)
+        private string BuySinglesInCart(ShoppingCart cart, string input)
+        {
+            // TODO: Complete this method
+            throw new NotImplementedException();
+        }
+
+        private string RemoveSingleFromCart(ShoppingCart cart, string input)
+        {
+            // TODO: Complete this method
+            throw new NotImplementedException();
+        }
+
+        private string AddSingleToCart(ShoppingCart cart, string input)
         {
             input = input.Replace("add ", " ").Trim();
 
@@ -71,29 +83,20 @@ namespace GC_Lab_6
                     } while (!gotQuanitty);
                     qty = stock.RemoveFromStock(song, qty);
                     cart.AddProduct(song, qty);
-                    return;
+                    return $"Added {song.SongName} by {song.Artist} to your cart.\n";
                 }
                 else if (found.Count > 1)
                 {
                     Console.WriteLine("We found these: ");
                     DisplayList(found);
+                    Console.Write("Which song would you like to add? \n > ");
+                    input = Console.ReadLine().ToLower().Trim();
                 }
                 else
                 {
-                    Console.WriteLine("We ain't find shit!");
-                    DisplayInventory();
+                    return $"could not find \'{input}\' in our inventory.\n";
                 }
-                Console.Write("Which song would you like to add? \n > ");
-                input = Console.ReadLine().ToLower().Trim();
-
             }
-
-
-            // check if input already has a song title, artist or genere in it. 
-            // TODO: complete Add Function
-
-
-
         }
 
         private static void DisplayList(List<Product> found)
@@ -103,7 +106,7 @@ namespace GC_Lab_6
             {
                 if (found.Count > 0)
                 {
-                    Console.WriteLine($" {song.ToString()}");
+                    Console.WriteLine($" - {song.SongName} by {song.Artist}");
                 }
 
             }
@@ -127,11 +130,11 @@ namespace GC_Lab_6
             return found;
         }
 
-        private static void DisplayHelp()
+        private string GetHelpInfo()
         {
-            Console.WriteLine("Type in the command for the thing that you want to do!");
-            Console.WriteLine();
-            // TODO: make this more useful
+            string output = string.Empty;
+            output += "Type \'add\' and the name of the song you want to add. \n";
+            return output;
         }
 
         private void DisplayInventory()
