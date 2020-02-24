@@ -6,13 +6,14 @@ namespace GC_Lab_6
     public class Store
     {
         private Inventory stock;
+        private ShoppingCart cart;
 
-        public Store() { stock = new Inventory(); }
+        public Store() { stock = new Inventory(); cart = new ShoppingCart(); }
 
         public void Shopping()
         {
 
-            ShoppingCart cart = new ShoppingCart();
+            
             string displayBuffer = "you may type \'help\' at anytime to see a list of commands.\n";
 
             while (true)
@@ -29,13 +30,13 @@ namespace GC_Lab_6
                 switch (input)
                 {
                     case string s when s.Contains("add"):
-                        displayBuffer += AddSingleToCart(cart, input);
+                        displayBuffer += AddSingleToCart(input);
                         break;
                     case string s when s.Contains("remove"):
-                        displayBuffer += RemoveSingleFromCart(cart, input);
+                        displayBuffer += RemoveSingleFromCart(input);
                         break;
                     case string s when s.Contains("buy"):
-                        displayBuffer += BuySinglesInCart(cart, input);
+                        displayBuffer += BuySinglesInCart(input);
                         break;
                     case string s when s.Contains("help"):
                         displayBuffer += GetHelpInfo();
@@ -49,25 +50,64 @@ namespace GC_Lab_6
             }
         }
 
-        private string BuySinglesInCart(ShoppingCart cart, string input)
+        private string BuySinglesInCart(string input)
         {
             // TODO: Complete this method
             throw new NotImplementedException();
         }
 
-        private string RemoveSingleFromCart(ShoppingCart cart, string input)
+        private string RemoveSingleFromCart(string input)
         {
-            // TODO: Complete this method
-            throw new NotImplementedException();
-        }
-
-        private string AddSingleToCart(ShoppingCart cart, string input)
-        {
-            input = input.Replace("add ", " ").Trim();
+            input = input.Replace("remove ", "").Trim();
 
             while (true)
             {
-                List<Product> found = SearchForSong(input);
+                List<Product> found = SearchForSongInCart(input);
+
+                if (found.Count == 1)
+                {
+                    var song = found[0];
+                    bool gotQuanitty = false;
+                    int qty;
+                    do
+                    {
+                        Console.Write($"How many \'{song.SongName}\' would you like to remove?\n > ");
+                        input = Console.ReadLine();
+                        gotQuanitty = int.TryParse(input, out qty);
+                        if (!gotQuanitty && input == "all")
+                        {
+                            gotQuanitty = true;
+                            qty = cart.Items[song];
+                        }
+                        if (gotQuanitty) Console.WriteLine("must be a number");
+                    } while (!gotQuanitty);
+                    qty = cart.RemoveFromCart(song, qty);
+                    stock.AddToStock(song, qty);
+                    return $"Removed {qty} x {song.SongName} by {song.Artist} from your cart.\n";
+                }
+                else if (found.Count > 1)
+                {
+                    Console.WriteLine("We found these: ");
+                    DisplayList(found);
+                    Console.Write("Which song would you like to remove? \n > ");
+                    input = Console.ReadLine().ToLower().Trim();
+                }
+                else
+                {
+                    return $"could not find \'{input}\' in your cart.\n";
+                }
+            }
+        }
+
+        
+
+        private string AddSingleToCart(string input)
+        {
+            input = input.Replace("add ", "").Trim();
+
+            while (true)
+            {
+                List<Product> found = SearchForSongInStock(input);
 
                 if (found.Count == 1)
                 {
@@ -116,11 +156,21 @@ namespace GC_Lab_6
 
 
 
-        private List<Product> SearchForSong(string input)
+        private List<Product> SearchForSongInCart(string input)
+        {
+            return SearchForSongIn(cart.Items, input);
+        }
+
+        private List<Product> SearchForSongInStock(string input)
+        {
+            return SearchForSongIn(stock.Songs, input);
+        }
+
+        private List<Product> SearchForSongIn(Dictionary<Product, int> dict, string input)
         {
             List<Product> found = new List<Product>();
 
-            foreach (Product product in stock.Songs.Keys)
+            foreach (Product product in dict.Keys)
             {
                 if (product.SongName.ToLower().Contains(input))
                 {
