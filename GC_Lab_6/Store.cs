@@ -7,16 +7,18 @@ namespace GC_Lab_6
     {
         private Inventory stock;
         private ShoppingCart cart;
+        private bool isShopping;
 
-        public Store() { stock = new Inventory(); cart = new ShoppingCart(); }
+        public Store() { stock = new Inventory(); cart = new ShoppingCart(); isShopping = false; }
 
         public void Shopping()
         {
 
             
             string displayBuffer = "you may type \'help\' at anytime to see a list of commands.\n";
+            isShopping = true;
 
-            while (true)
+            while (isShopping)
             {
                 Console.Clear();
                 DisplayInventory();
@@ -35,30 +37,49 @@ namespace GC_Lab_6
                     case string s when s.Contains("remove"):
                         displayBuffer += RemoveSingleFromCart(input);
                         break;
-                    case string s when s.Contains("buy"):
-                        displayBuffer += BuySinglesInCart(input);
-                        break;
                     case string s when s.Contains("help"):
                         displayBuffer += GetHelpInfo();
                         break;
-                    case string s when (s.Contains("leave") || s.Contains("quit")):
-                        return;
+                    case string s when s.Contains("leave"):
+                        displayBuffer += AttemptToLeave(input);
+                        break;
                     default:
                         displayBuffer += $"I don't understand! \'{input}\'\n";
                         break;
                 }
             }
+
+            Console.WriteLine(displayBuffer);
         }
 
-        private string BuySinglesInCart(string input)
+        private string AttemptToLeave(string input)
         {
-            // TODO: Complete this method
-            throw new NotImplementedException();
+            string message = string.Empty;
+
+            if (cart.Items.Count > 0)
+            {
+                message +=  $"You have {cart.SubTotal.ToString("C")} of songs in your cart.\n";
+                message += $"Either will need to eitehr \'buy\' or \'remove all\' items from your cart before leaving.\n";
+            }
+            else
+            {
+                message += "Thank you for coming by!";
+                isShopping = false;
+            }
+            
+            
+            return message;
         }
 
         private string RemoveSingleFromCart(string input)
         {
-            input = input.Replace("remove ", "").Trim();
+            input = input.Replace("remove", " ").Trim();
+
+            if (input == "all")
+            {
+                RemoveAllFromCart();
+                return "Everything has been removed from your cart.";
+            }
 
             while (true)
             {
@@ -99,11 +120,18 @@ namespace GC_Lab_6
             }
         }
 
-        
+        private void RemoveAllFromCart()
+        {
+            foreach (Product song in cart.Items.Keys)
+            {
+                stock.AddToStock(song, cart.Items[song]);
+            }
+            cart = new ShoppingCart();
+        }
 
         private string AddSingleToCart(string input)
         {
-            input = input.Replace("add ", "").Trim();
+            input = input.Replace("add", " ").Trim();
 
             while (true)
             {
@@ -183,7 +211,10 @@ namespace GC_Lab_6
         private string GetHelpInfo()
         {
             string output = string.Empty;
-            output += "Type \'add\' and the name of the song you want to add. \n";
+            output += "Type \'add\' and the name of the song you want to add to your cart \n";
+            output += "Type \'remove\' and the name of the song you want to remove from your cart \n";
+            output += "When you are ready to cashout, type \'buy\' \n";
+            output += "When you are ready to leave, type \'leave\' \n";
             return output;
         }
 
